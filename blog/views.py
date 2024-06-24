@@ -46,7 +46,22 @@ def post_new(request):
     if request.method != "POST":
         form = PostForm()
     else:
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.publish_date = datetime.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+        
+    return render(request, 'blog/post_edit.html', {'form': form})
+
+def post_edit(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if request.method != "POST":
+        form = PostForm(instance=post)
+    else:
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
