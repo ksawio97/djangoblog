@@ -37,3 +37,6 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
 
+def error_404_view(request, exception):
+    data = {"name": "Blog"}
+    return render(request, 'blog/404.html')
