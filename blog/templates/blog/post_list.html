@@ -2,8 +2,13 @@
 {% block content %}
     {% for post in posts %}
     <div>
+        {% if post.image_url %}
+            <img src="{{ post.image_url }}" alt="Image" width="100px">
+        {% endif %}
         <em class="text-info">{{ post.publish_date }}</em>
-        <h2 class="text-white"><a href="{% url 'post_detail' pk=post.pk %}" class="text-white">{{ post.title }}</a></h2>
+        <h2 class="text-white">
+            <a href="{% url 'post_detail' pk=post.pk %}" class="text-white">{{ post.title }}</a>
+        </h2>
         <p class="text-light">{{ post.text|linebreaksbr }}</p>
     </div>
     {% endfor %}
