@@ -8,9 +8,18 @@ h2 {
 h1 {
     padding: 0.7em;
 }
-html {
-    padding: 2em;
-}
+
 body {
     background: #222222;
+}
+
+header {
+    display: flex;
+    padding: 1em;
+    align-items: center;
+    background: #ffc107;
+}
+
+main {
+    padding: 2em;
 }
