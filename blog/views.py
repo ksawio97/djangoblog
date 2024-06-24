@@ -43,6 +43,10 @@ def error_404_view(request, exception):
     return render(request, 'blog/404.html')
 
 def post_new(request):
+    # not logged users can't add posts
+    if not _isUserAuth(request):
+        return redirect('/')
+    
     if request.method != "POST":
         form = PostForm()
     else:
@@ -57,6 +61,10 @@ def post_new(request):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 def post_edit(request, pk):
+    # not logged users can't edit posts
+    if not _isUserAuth(request):
+        return redirect('/')
+
     post = get_object_or_404(Post, pk=pk)
     if request.method != "POST":
         form = PostForm(instance=post)
@@ -70,3 +78,6 @@ def post_edit(request, pk):
             return redirect('post_detail', pk=post.pk)
         
     return render(request, 'blog/post_edit.html', {'form': form})
+
+def _isUserAuth(request) -> bool:
+    return request.user.is_authenticated 
